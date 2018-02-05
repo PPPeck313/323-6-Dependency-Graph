@@ -5,82 +5,82 @@
 
 #### **** Algorithm steps for Dependency Job Scheduling:<br />
 
-Step 0: open input-1 (argv[1]) and input-2 (argv[2]) and output (argv[4])<br />
-     0.1: numJobs <-- get from input1.<br />
-     0.2: numProcessor <-- get from argv[3]<br />
-     0.3: if numProcessor > numJobs<br />
+**Step 0:** open input-1 (argv[1]) and input-2 (argv[2]) and output (argv[4])<br />
+     **0.1:** numJobs <-- get from input1.<br />
+     **0.2:** numProcessor <-- get from argv[3]<br />
+     **0.3:** if numProcessor > numJobs<br />
             numProcessor <-- numJobs <br />
-     0.4: Time <-- 1 <br />
+     **0.4:** Time <-- 1 <br />
      
-Step 1: graphHashTable <-- dynamically allocated and initialized of all fields<br />
+**Step 1:** graphHashTable <-- dynamically allocated and initialized of all fields<br />
 
-Step 2: <ni, nj> <-- read from input-1<br />
-     2.1: job <-- ni 	& child <-- nj<br />
-     2.2: newNode <-- create a graphNode for <child><br />
-     2.3: push newNode on the top of graphHashTable[index].stackTop<br />
-     2.4: graphHashTable[job].childCount ++<br />
-     2.5: graphHashTable[child].fatherCount ++<br />
+**Step 2:** <ni, nj> <-- read from input-1<br />
+     **2.1:** job <-- ni 	& child <-- nj<br />
+     **2.2:** newNode <-- create a graphNode for <child><br />
+     **2.3:** push newNode on the top of graphHashTable[index].stackTop<br />
+     **2.4:** graphHashTable[job].childCount ++<br />
+     **2.5:** graphHashTable[child].fatherCount ++<br />
      
-Step 3: repeat step 2 until input-1 is end of file<br />
+**Step 3:** repeat step 2 until input-1 is end of file<br />
 
-Step 4: totalJobTime <-- 0<br />
+**Step 4:** totalJobTime <-- 0<br />
 
-Step 5: <job, jobTime> <-- read from input-2<br />
-     5.1: graphHashTable[job].jobTime <-- jobTime<br />
-     5.2: totalJobTime += jobTime<br />
+**Step 5:** <job, jobTime> <-- read from input-2<br />
+     **5.1:** graphHashTable[job].jobTime <-- jobTime<br />
+     **5.2:** totalJobTime += jobTime<br />
      
-Step 6: repeat step 5 until input-2 is end of file<br />
+**Step 6:** repeat step 5 until input-2 is end of file<br />
 
-Step 7: processorSchedule <-- dynamically allocated and initialized<br />
+**Step 7:** processorSchedule <-- dynamically allocated and initialized<br />
 
-Step 8: job <-- 1<br />
+**Step 8:** job <-- 1<br />
 
-Step 9: if graphHashTable[job].fatherCount == 0<br />
-      9.1: orphan <-- job	<br />
-      9.2: newNode <-- create a graphNode for <orphan><br />
-      9.3: insert(OPEN, newNode)<br />
-      9.4: graphHashTable[orphen].fatherCount --<br />
+**Step 9:** if graphHashTable[job].fatherCount == 0<br />
+      **9.1:** orphan <-- job	<br />
+      **9.2:** newNode <-- create a graphNode for <orphan><br />
+      **9.3:** insert(OPEN, newNode)<br />
+      **9.4:** graphHashTable[orphen].fatherCount --<br />
       
-Step 10: job++<br />
+**Step 10:** job++<br />
 
-Step 11: repeat step 9 - step 10 while job <= numJobs	   <br />
+**Step 11:** repeat step 9 - step 10 while job <= numJobs	   <br />
 
-Step 12: processor <-- 1<br />
+**Step 12:** processor <-- 1<br />
 
-Step 13: if OPEN is not empty and processorSchedule[processor][0] <= 0<br />
-     13.1: availProc <-- processor<br />
-     13.2: processorSchedule[availProc][0]++<br />
-     13.3: job <-- remove from Open <br />
-     13.4: jobTime <-- graphHashTable[job].jobTime<br />
+**Step 13:** if OPEN is not empty and processorSchedule[processor][0] <= 0<br />
+     **13.1:** availProc <-- processor<br />
+     **13.2:** processorSchedule[availProc][0]++<br />
+     **13.3:** job <-- remove from Open <br />
+     **13.4:** jobTime <-- graphHashTable[job].jobTime<br />
      
-Step 14: slot <-- Time<br />
+**Step 14:** slot <-- Time<br />
 
-Step 15: processorSchedule[availProc][slot] <-- job<br />
+**Step 15:** processorSchedule[availProc][slot] <-- job<br />
 
-Step 16: slot ++<br />
+**Step 16:** slot ++<br />
 
-Step 17: repeat step 15 to step 16 while slot <= Time + jobTime<br />
+**Step 17:** repeat step 15 to step 16 while slot <= Time + jobTime<br />
 
-Step 18: processor ++<br />
+**Step 18:** processor ++<br />
 
-Step 19: repeat step 13 - step 18 while OPEN is *NOT empty* and (processor <= numProcessor) <br />
+**Step 19:** repeat step 13 - step 18 while OPEN is *NOT empty* and (processor <= numProcessor) <br />
 
-Step 20: Time++<br />
+**Step 20:** Time++<br />
 
-Step 21: processor <-- 1<br />
+**Step 21:** processor <-- 1<br />
 
-Step 22: if (processorSchedule[processor][0] > 0) and (processorSchedule[processor][Time] <= 0)<br />
+**Step 22:** if (processorSchedule[processor][0] > 0) and (processorSchedule[processor][Time] <= 0)<br />
 doneJob <-- processorSchedule[processor][Time - 1]<br />
-     22.1: graphHashTable[doneJob].fatherCount-- <br />
-     22.2: processorSchedule[processor][0] <-- 0<br />
+     **22.1:** graphHashTable[doneJob].fatherCount-- <br />
+     **22.2:** processorSchedule[processor][0] <-- 0<br />
      
-Step 23: processor ++<br />
+**Step 23:** processor ++<br />
 
-Step 24: repeat step 22 to 23 while processor <= numProcessor<br />
+**Step 24:** repeat step 22 to 23 while processor <= numProcessor<br />
 
-Step 25: repeat which steps 8 to 24 while Time < totalJobTime<br />
+**Step 25:** repeat which steps 8 to 24 while Time < totalJobTime<br />
 
-### Input<br />
+### INPUT<br />
 Dependencies	<br />				
 15			<br />			
 1 2				<br />		
@@ -157,7 +157,7 @@ Processors<br />
 5<br />
 40<br />
   
-### Output<br />
+### OUTPUT<br />
 |    |T1  |T2  |T3  |T4  |T5  |T6  |T7  |T8  |T9  |T10 |T11 |T12 |T13 |T14 |T15 |
 |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |
 |P1  |4   |5   |9   |3   |6   |12  |14  |11  |0   |0   |0   |0   |0   |0   |0   | <br /> 
